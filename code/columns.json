@@ -1,0 +1,19 @@
+{
+    "studyName": "Sampling expedition from which data were collected, generated, etc.",
+    "Sample Number": "continuous numberng sequence for each sample",
+    "Species": "a string representing the species of an organism",
+    "Region": "Nominal region of Palmer LTER sampling grid",
+    "Island": "Island near Palmer Station where samples were collected",
+    "Stage": "Reproductive stage at sampling",
+    "Individual ID": "A unique ID for each individual in dataset",
+    "Clutch Completion": "Was the study nest observed with a full clutch, i.e., 2 eggs",
+    "Date Egg": "Date study nest observed with 1 egg (sampled)",
+    "Culmen Length (mm)": "length of the dorsal ridge of a bird's bill",
+    "Culmen Depth (mm)": "depth of the dorsal ridge of a bird's bill",
+    "Flipper Length (mm)": "Length of flipper",
+    "Body Mass (g)": "Mass of body",
+    "Sex": "code for the sex of an animal",
+    "Delta 15 N (o/oo)": "a measure of the ratio of stable isotopes 15N:14N",
+    "Delta 13 C (o/oo)": "a measure of the ratio of stable isotopes 13C:12C",
+    "Comments": "Text field to provide additional relevant information for data"
+}

@@ -8,6 +8,7 @@ import json
 import os
 import requests
 import sys
+import subprocess
 
 data = {} # Main dictionary to store annotated metadata
 repo_path = Path(__file__).resolve().parent.parent
@@ -23,7 +24,9 @@ nampespace_suffix = {
     'Dataset': 'ds',
     'DataItem': 'di',
     'Dimension': 'dim',
+    'Distribution': 'dist',
     'Factor': 'fact',
+    'FileFormat': 'fformat',
     'Instrument': 'inst',
     'Organization': 'org',
     'Person': 'person',
@@ -35,6 +38,12 @@ nampespace_suffix = {
     'Unit': 'unit',
 }
 dump_base_url = ''
+checksum_maps = {
+    'MD5': 'http://purl.obolibrary.org/obo/NCIT_C171276'
+}
+media_type_maps = {
+    'csv': 'text/csv'
+}
 
 
 def read_csv_file(file_path):
@@ -200,6 +209,58 @@ def get_data_item_dict(row, cname, ds_pid, sa_pid, subject_pid, dim_pid, unit_pi
 
     return di
 
+def get_distribution_dict(key):
+    """
+    """
+
+    filepath = csv_files[key]
+    result = subprocess.run(['git', 'annex', 'lookupkey', filepath], capture_output=True, text=True)
+    annexkey = result.stdout.strip()
+    props = parse_annexkey(annexkey)
+
+    return {
+        'pid': f'https://concepts.datalad.org/ns/annex-key/{annexkey}',
+        'distribution_of': get_pid('Dataset', key),
+        'name': filepath.name,
+        # 'part_of': '',
+        'byte_size': props['filesize'],
+        'format': get_pid('FileFormat', props['extension']),
+        'media_type': media_type_maps[props['extension']],
+        'display_label': filepath.name,
+        'checksums': [
+            {
+                'creator': checksum_maps[props['backend']],
+                'notation': props['hash']
+            }
+        ],
+    }
+
+def parse_annexkey(key):
+    """
+    """
+    # Find positions of separators
+    first_dash = key.find('-')
+    double_dash = key.find('--')
+    first_dot = key.find('.', double_dash)
+
+    if first_dash == -1 or double_dash == -1 or first_dot == -1:
+        raise ValueError(f"annexkey format not recognized: {key!r}")
+    
+    # Extract parts
+    backend_part = key[:first_dash]
+    size_part = key[first_dash + 1:double_dash]
+    if not size_part.startswith('s') or not size_part[1:].isdigit():
+        raise ValueError(f"Invalid size format: {size_part!r}")
+    filesize = int(size_part[1:])
+    hash_part = key[double_dash + 2:first_dot]
+    extension = key[first_dot + 1:]
+    
+    return {
+        'backend': backend_part[:-1] if backend_part.endswith('E') else backend_part,
+        'filesize': filesize,
+        'hash': hash_part,
+        'extension': extension
+    }
 
 
 def post_record(endpoint_class: str, token: str, record: dict):
@@ -282,7 +343,7 @@ if __name__ == '__main__':
             outfile = repo_path / 'code' / output
         else:
             outfile = repo_path / 'code' / f'{output}.json'
-    
+
     # Load source metadata
     source_metadata = read_json_file(meta_file)
     column_descriptions = read_json_file(column_file)
@@ -307,21 +368,41 @@ if __name__ == '__main__':
     person_dict['pid'] = person_pid
     add_node('Person', person_pid, person_dict)
 
+    # FILEFORMAT
+    # Only one
+    ff_key = 'csv'
+    ff_pid = get_pid('FileFormat', ff_key)
+    ff_dict = source_metadata['FileFormat'][ff_key]
+    ff_dict['pid'] = ff_pid
+    add_node('FileFormat', ff_pid, ff_dict)
+
     # DATASET
     # Add the main dataset
-    main_ds_pid_key = 'penguins'
-    main_ds_pid = get_pid('Dataset', main_ds_pid_key)
-    main_ds_val = source_metadata['Dataset'][main_ds_pid_key]
+    main_ds_key = 'penguins'
+    main_ds_pid = 'https://concepts.datalad.org/ns/dataset-uuid/fd3b41bb-5d75-4cee-b41c-aac0e0cae7f1'
+    main_ds_val = source_metadata['Dataset'][main_ds_key]
     main_ds_val['pid'] = main_ds_pid
-    main_ds_val['record_contact'] = person_pid
-
     add_node('Dataset', main_ds_pid, main_ds_val)
     # Add child datasets and include part_of relationship
     ds_relationships = {
         'part_of': main_ds_pid,
         'record_contact': person_pid
     }
-    add_nodes(source_metadata, 'Dataset', ds_relationships, [main_ds_pid_key])
+    add_nodes(source_metadata, 'Dataset', ds_relationships, [main_ds_key])
+
+    # DISTRIBUTION
+    # The datalad dataset distribution
+    main_ds_dist = {
+        'pid': 'https://concepts.datalad.org/ns/gitsha/9a7e16b80140183c9495d549ce117af4eff9de3e',
+        'distribution_of': main_ds_pid,
+        'name': 'penguins',
+        'display_label': 'DataLad Penguins Distribution',
+    }
+    add_node('Distribution', main_ds_dist['pid'], main_ds_dist)
+    # The three csv file distributions
+    for dataset_key in csv_files:
+        dist_dict = get_distribution_dict(dataset_key)
+        add_node('Distribution', dist_dict['pid'], dist_dict)
 
     # DIMENSION
     add_nodes(source_metadata, 'Dimension')
@@ -339,8 +420,8 @@ if __name__ == '__main__':
     add_nodes(source_metadata, 'Unit')
 
     # STUDY
-    study_pid = get_pid('Study', main_ds_pid_key)
-    study_val = source_metadata['Study'][main_ds_pid_key]
+    study_pid = get_pid('Study', main_ds_key)
+    study_val = source_metadata['Study'][main_ds_key]
     study_val['pid'] = study_pid
     # relational objects must exist before they can be referenced here
     study_relationships = {
@@ -354,6 +435,15 @@ if __name__ == '__main__':
         study_val[r] = study_relationships[r]
     
     add_node('Study', study_pid, study_val)
+
+    # DIMENSIONS AND STUDY TO DATASETS
+    for ds_pid in data['Dataset'].keys():
+        if ds_pid == main_ds_pid:
+            continue
+        # add dimensions
+        data['Dataset'][ds_pid]['dimensions'] = list(data['Dimension'].keys())
+        # add primary source
+        data['Dataset'][ds_pid]['primary_source'] = study_pid
 
     # MAIN STUDYACTIVITYs
 
@@ -427,7 +517,7 @@ if __name__ == '__main__':
                         # get associated dimension
                         dim_pid = get_pid('Dimension', c)
                         # get associated unit
-                        unit_pid = get_pid('Dimension', source_units_for_dimensions[c]) if source_units_for_dimensions[c] else None
+                        unit_pid = get_pid('Unit', source_units_for_dimensions[c]) if source_units_for_dimensions[c] else None
                         new_data_item = get_data_item_dict(
                             row=row,
                             cname = cname,
@@ -442,6 +532,7 @@ if __name__ == '__main__':
 
     # OUTPUT
     if output == 'stdout':
+        # pass
         json.dump(data, sys.stdout)
     else:
         with open(outfile, 'w') as fp:
@@ -469,12 +560,14 @@ if __name__ == '__main__':
             'Instrument',
             'Protocol',
             'Unit',
+            'FileFormat',
             'Dataset',
+            'Distribution',
             'Study',
             'SubjectType',
             'Subject',
             'StudyActivity',
-            'DataItem'
+            'DataItem',
         ]
         for clss in post_this:
             cnt = 0

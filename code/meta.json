@@ -19,10 +19,10 @@
             "display_label": "Chinstrap Penguins"
         },
         "penguins":{
-            "name": "Penguin Dataset",
-            "short_name": "Penguins",
-            "description": "Data collected from three species of Pygoscelis penguins nesting on several islands within the Palmer Archipelago west of the AP near Anvers Island, during the austral summers of 2007/08, 2008/09, and 2009/10.",
-            "display_label": "Penguins"
+            "name": "DataLad Penguins",
+            "short_name": "DataLad Penguins",
+            "description": "Data collected from three species of Pygoscelis penguins nesting on several islands within the Palmer Archipelago west of the AP near Anvers Island, during the austral summers of 2007/08, 2008/09, and 2009/10. Wrapped in a DataLad dataset.",
+            "display_label": "DataLad Penguins"
         }
     },
     "DataItem": {
@@ -127,6 +127,15 @@
             "name": "Torgersen",
             "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°46'S, 64°04'W.",
             "display_label": "Torgersen island"
+        }
+    },
+    "FileFormat": {
+        "csv": {
+            "name": "Comma-separated values",
+            "short_name": "CSV",
+            "description": "A text file format that uses commas to separate values and newlines to separate records",
+            "display_label": "CSV",
+            "exact_mappings": ["http://purl.obolibrary.org/obo/NCIT_C182456"]
         }
     },
     "Instrument": {

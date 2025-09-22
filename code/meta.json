@@ -1,31 +1,27 @@
 {
-    "Dataset": {
+    "XYZDataset": {
         "adelie":{
             "name": "Adélie Penguin Dataset",
             "short_name": "Adélie Penguins",
-            "description": "Structural size measurements and isotopic signatures of foraging among adult male and female Adélie penguins (Pygoscelis adeliae) nesting along the Palmer Archipelago near Palmer Station, 2007-2009",
-            "display_label": "Adélie Penguins"
+            "description": "Structural size measurements and isotopic signatures of foraging among adult male and female Adélie penguins (Pygoscelis adeliae) nesting along the Palmer Archipelago near Palmer Station, 2007-2009"
         },
         "gentoo":{
             "name": "Gentoo Penguin Dataset",
             "short_name": "Gentoo Penguins",
-            "description": "Structural size measurements and isotopic signatures of foraging among adult male and female gentoo penguins (Pygoscelis papua) nesting along the Palmer Archipelago near Palmer Station, 2007-2009",
-            "display_label": "Gentoo Penguins"
+            "description": "Structural size measurements and isotopic signatures of foraging among adult male and female gentoo penguins (Pygoscelis papua) nesting along the Palmer Archipelago near Palmer Station, 2007-2009"
         },
         "chinstrap":{
             "name": "Chinstrap Penguin Dataset",
             "short_name": "Chinstrap Penguins",
-            "description": "Structural size measurements and isotopic signatures of foraging among adult male and female Chinstrap penguins (Pygoscelis antarcticus) nesting along the Palmer Archipelago near Palmer Station, 2007-2009",
-            "display_label": "Chinstrap Penguins"
+            "description": "Structural size measurements and isotopic signatures of foraging among adult male and female Chinstrap penguins (Pygoscelis antarcticus) nesting along the Palmer Archipelago near Palmer Station, 2007-2009"
         },
         "penguins":{
             "name": "DataLad Penguins",
             "short_name": "DataLad Penguins",
-            "description": "Data collected from three species of Pygoscelis penguins nesting on several islands within the Palmer Archipelago west of the AP near Anvers Island, during the austral summers of 2007/08, 2008/09, and 2009/10. Wrapped in a DataLad dataset.",
-            "display_label": "DataLad Penguins"
+            "description": "Data collected from three species of Pygoscelis penguins nesting on several islands within the Palmer Archipelago west of the AP near Anvers Island, during the austral summers of 2007/08, 2008/09, and 2009/10. Wrapped in a DataLad dataset."
         }
     },
-    "DataItem": {
+    "XYZDataItem": {
         "ex": {
             "part_of": "",
             "generated_by": "",
@@ -33,65 +29,53 @@
             "value": "",
             "unit": "",
             "dimensions": [],
-            "description": "",
-            "display_label": ""
+            "description": ""
         }
     },
-    "Dimension": {
+    "XYZDimension": {
         "stage": {
             "name": "Stage",
-            "description": "Reproductive stage at sampling",
-            "display_label": "Stage"
+            "description": "Reproductive stage at sampling"
         },
         "clutch_completion": {
             "name": "Clutch Completion",
-            "description": "Was the study nest observed with a full clutch, i.e., 2 eggs",
-            "display_label": "Clutch Completion"
+            "description": "Was the study nest observed with a full clutch, i.e., 2 eggs"
         },
         "date_egg": {
             "name": "Date Egg",
-            "description": "Date study nest observed with 1 egg (sampled); string formatted as YYYY-MM-DD",
-            "display_label": "Date Egg"
+            "description": "Date study nest observed with 1 egg (sampled); string formatted as YYYY-MM-DD"
         },
         "culmen_length": {
             "name": "Culmen Length (mm)",
-            "description": "length of the dorsal ridge of a bird's bill",
-            "display_label": "Culmen Length (mm)"
+            "description": "length of the dorsal ridge of a bird's bill"
         },
         "culmen_depth": {
             "name": "Culmen Depth (mm)",
-            "description": "depth of the dorsal ridge of a bird's bill",
-            "display_label": "Culmen Depth (mm)"
+            "description": "depth of the dorsal ridge of a bird's bill"
         },
         "flipper_length": {
             "name": "Flipper Length (mm)",
-            "description": "Length of flipper",
-            "display_label": "Flipper Length (mm)"
+            "description": "Length of flipper"
         },
         "body_mass": {
             "name": "Body Mass (g)",
-            "description": "Mass of body",
-            "display_label": "Body Mass (g)"
+            "description": "Mass of body"
         },
         "sex": {
             "name": "Sex",
-            "description": "code for the sex of an animal",
-            "display_label": "Sex"
+            "description": "code for the sex of an animal"
         },
         "delta15N": {
             "name": "Delta 15 N (o/oo)",
-            "description": "a measure of the ratio of stable isotopes 15N:14N",
-            "display_label": "Delta 15 N (o/oo)"
+            "description": "a measure of the ratio of stable isotopes 15N:14N"
         },
         "delta13C": {
             "name": "Delta 13 C (o/oo)",
-            "description": "a measure of the ratio of stable isotopes 13C:12C",
-            "display_label": "Delta 13 C (o/oo)"
+            "description": "a measure of the ratio of stable isotopes 13C:12C"
         },
         "comments": {
             "name": "Comments",
-            "description": "Text field to provide additional relevant information for data",
-            "display_label": "Comments"
+            "description": "Text field to provide additional relevant information for data"
         }
     },
     "DimensionToUnitMapping": {
@@ -107,128 +91,107 @@
         "delta13C": "parts_per_thousand",
         "comments": ""
     },
-    "Factor": {
+    "XYZFactor": {
         "anvers": {
             "name": "Anvers",
-            "description": "Island in the Palmer Archipelago on which the Palmer Station is located, 64°46'S, 64°03'W. This is a nominal region of the Palmer LTER sampling grid",
-            "display_label": "Anvers"
+            "description": "Island in the Palmer Archipelago on which the Palmer Station is located, 64°46'S, 64°03'W. This is a nominal region of the Palmer LTER sampling grid"
         },
         "dream": {
             "name": "Dream",
-            "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°43'S, 64°13'W",
-            "display_label": "Dream island"
+            "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°43'S, 64°13'W"
         },
         "biscoe": {
             "name": "Biscoe",
-            "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°48'S, 63°46'W.",
-            "display_label": "Biscoe island"
+            "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°48'S, 63°46'W."
         },
         "torgersen": {
             "name": "Torgersen",
-            "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°46'S, 64°04'W.",
-            "display_label": "Torgersen island"
+            "description": "Island in the Palmer Archipelago in the region of Anvers island, located at 64°46'S, 64°04'W."
         }
     },
-    "FileFormat": {
+    "XYZFileFormat": {
         "csv": {
             "name": "Comma-separated values",
             "short_name": "CSV",
             "description": "A text file format that uses commas to separate values and newlines to separate records",
-            "display_label": "CSV",
             "exact_mappings": ["http://purl.obolibrary.org/obo/NCIT_C182456"]
         }
     },
-    "Instrument": {
+    "XYZInstrument": {
         "sterile_syringe": {
-            "name": "sterile 3 ml syringe",
-            "display_label": "sterile 3 ml syringe"
+            "name": "sterile 3 ml syringe"
         },
         "heparinized_infusion_needle": {
-            "name": "heparinized infusion needle",
-            "display_label": "heparinized infusion needle"
+            "name": "heparinized infusion needle"
         },
         "micro_centrifuge_tube": {
-            "name": "1.5 ml micro-centrifuge tube",
-            "display_label": "1.5 ml micro-centrifuge tube"
+            "name": "1.5 ml micro-centrifuge tube"
         },
         "dial_calipers": {
-            "name": "dial calipers ±0.1 mm",
-            "display_label": "dial calipers ±0.1 mm"
+            "name": "dial calipers ±0.1 mm"
         },
         "ruler": {
-            "name": "ruler ±1 mm",
-            "display_label": "ruler ±1 mm"
+            "name": "ruler ±1 mm"
         },
         "pesola_spring_scales_and_weigh_bag": {
-            "name": "5 kg±25 g or 10 kg±50 g Pesola spring scales and a weigh bag",
-            "display_label": "5 kg±25 g or 10 kg±50 g Pesola spring scales and a weigh bag"
+            "name": "5 kg±25 g or 10 kg±50 g Pesola spring scales and a weigh bag"
         }
     },
-    "Organization": {
+    "XYZOrganization": {
         "uni_alaska_fairbanks": {
             "name": "University of Alaska Fairbanks",
             "organization_type": "university",
-            "display_label": "University of Alaska Fairbanks",
-            "curation_comments": ["https://www.uaf.edu/uaf/"]
+            "editorial_note": ["https://www.uaf.edu/uaf/"]
         },
         "ltern": {
             "name": "Long Term Ecological Research Network",
             "organization_type": "researchorganization",
-            "display_label": "Long Term Ecological Research Network",
-            "curation_comments": ["https://lternet.edu/"]
+            "editorial_note": ["https://lternet.edu/"]
         },
         "palmer_station": {
             "name": "Palmer Station Antarctica LTER",
             "organization_type": "researchcenter",
-            "display_label": "Palmer Station Antarctica LTER",
-            "curation_comments": ["https://pallter.marine.rutgers.edu/"]
+            "editorial_note": ["https://pallter.marine.rutgers.edu/"]
         }
     },
-    "Person": {
+    "XYZPerson": {
         "kbgorman": {
             "family_name": "Gorman",
             "given_name": "Kristen",
             "additional_names": ["B"],
-            "display_label": "Gorman, Kristen",
             "orcid": "0000-0002-0258-9264"
         }
     },
-    "Protocol": {
+    "XYZProtocol": {
         "penguin_monitoring_and_selection": {
             "name": "Penguin monitoring and selection",
-            "description": "Study nests, where pairs of adults were present, were individually marked and chosen before the onset of egg laying, and consistently monitored.\nWhen study nests were found at the one-egg stage, both adults were captured to obtain blood samples used for molecular sexing and SI analyses, and measurements of structural size and body mass\nAfter handling, individuals at study nests were further monitored to ensure the pair reached clutch completion, i.e., two eggs.",
-            "display_label": "Penguin monitoring and selection"
+            "description": "Study nests, where pairs of adults were present, were individually marked and chosen before the onset of egg laying, and consistently monitored.\nWhen study nests were found at the one-egg stage, both adults were captured to obtain blood samples used for molecular sexing and SI analyses, and measurements of structural size and body mass\nAfter handling, individuals at study nests were further monitored to ensure the pair reached clutch completion, i.e., two eggs."
         },
         "penguin_structural_size_and_mass_measurement": {
             "name": "Penguin structural size and mass measurement",
-            "description": "Measurements of culmen length and depth (using dial calipers ±0.1 mm), right flipper (using a ruler ±1 mm), and body mass (using 5 kg±25 g or 10 kg±50 g Pesola spring scales and a weigh bag) were obtained to quantify body size variation.",
-            "display_label": "Penguin structural size and mass measurement"
+            "description": "Measurements of culmen length and depth (using dial calipers ±0.1 mm), right flipper (using a ruler ±1 mm), and body mass (using 5 kg±25 g or 10 kg±50 g Pesola spring scales and a weigh bag) were obtained to quantify body size variation."
         },
         "penguin_blood_sample_collection": {
             "name": "Penguin blood sample collection",
-            "description": "At the time of capture, each adult penguin was quickly blood sampled (~1 ml) from the brachial vein using a sterile 3 ml syringe and heparinized infusion needle.\nCollected blood was stored in 1.5 ml micro-centrifuge tubes that were kept cool.\nIn the field, a small amount of whole blood was smeared on clean filter paper stored in a 1.5 ml micro-centrifuge tube for molecular sexing.",
-            "display_label": "Penguin blood sample collection"
+            "description": "At the time of capture, each adult penguin was quickly blood sampled (~1 ml) from the brachial vein using a sterile 3 ml syringe and heparinized infusion needle.\nCollected blood was stored in 1.5 ml micro-centrifuge tubes that were kept cool.\nIn the field, a small amount of whole blood was smeared on clean filter paper stored in a 1.5 ml micro-centrifuge tube for molecular sexing."
         },
         "calculating_delta15N_and_delta13C_values_from_whole_blood_in_tubes": {
             "name": "Calculating Delta 15 N and Delta 13 C values from whole blood in tubes",
-            "description": "whole blood tubes centrifuged to separate plasma and red blood cell (RBC) fractions\nRBC tubes frozen at -80 degrees Celsius (°C)\nallowed to dry to a consistent mass in a drying oven at 60°C => dried RBC pellets\ndried RBC pellets homogenized into a powder using a mortar and pestle lined with clean weighing paper (Each mortar and pestle was washed and dried in between sample processing)\nAliquots of powdered samples were transferred to 8x5 mm pressed tin capsules (Elemental Microanalysis) and weighed (~2 mg) using an analytical balance\nSamples were organized in 96-microwell plates and analyzed for δ13C and δ15N SI signatures using an elemental analyzer interfaced with an isotope ratio mass spectrometer at the Stable Isotope Facility, University of California (UC) - Davis\nData expressed as δ13C or δ15N were calculated using the following equation: δ13C or δ15N=([Rsample/Rstandard]-1)x1000, where Rsample is the ratio of the heavy to light isotope for either 13C/12C or 15N/14N, and Rstandard is the heavy to light isotope ratios for international standards - Vienna PeeDee Belemnite for carbon, and atmospheric N2 (Air) for nitrogen.",
-            "display_label": "Calculating Delta 15 N and Delta 13 C values from whole blood in tubes"
+            "description": "whole blood tubes centrifuged to separate plasma and red blood cell (RBC) fractions\nRBC tubes frozen at -80 degrees Celsius (°C)\nallowed to dry to a consistent mass in a drying oven at 60°C => dried RBC pellets\ndried RBC pellets homogenized into a powder using a mortar and pestle lined with clean weighing paper (Each mortar and pestle was washed and dried in between sample processing)\nAliquots of powdered samples were transferred to 8x5 mm pressed tin capsules (Elemental Microanalysis) and weighed (~2 mg) using an analytical balance\nSamples were organized in 96-microwell plates and analyzed for δ13C and δ15N SI signatures using an elemental analyzer interfaced with an isotope ratio mass spectrometer at the Stable Isotope Facility, University of California (UC) - Davis\nData expressed as δ13C or δ15N were calculated using the following equation: δ13C or δ15N=([Rsample/Rstandard]-1)x1000, where Rsample is the ratio of the heavy to light isotope for either 13C/12C or 15N/14N, and Rstandard is the heavy to light isotope ratios for international standards - Vienna PeeDee Belemnite for carbon, and atmospheric N2 (Air) for nitrogen."
         },
         "calculating_penguin_sex_from_blood_smears": {
             "name": "Calculating penguin sex from blood smears",
-            "description": "Tubes containing whole blood smears on filter paper were allowed to dry in a desiccator.\nAfter drying, tubes were sealed and frozen at -80°C.\nWhole blood smears were allowed to dry a second time in a desiccator for at least 24 hrs prior to analysis.\nSex of adult Pygoscelis penguins was determined molecularly using PCR amplification as outlined by Griffiths et al. [53], as well as Fridolfsson and Ellegren [54]. See Supporting Information Text S1 for specific details regarding PCR methods including extraction, amplification, and gel electrophoresis.",
-            "display_label": "Calculating penguin sex from blood smears"
+            "description": "Tubes containing whole blood smears on filter paper were allowed to dry in a desiccator.\nAfter drying, tubes were sealed and frozen at -80°C.\nWhole blood smears were allowed to dry a second time in a desiccator for at least 24 hrs prior to analysis.\nSex of adult Pygoscelis penguins was determined molecularly using PCR amplification as outlined by Griffiths et al. [53], as well as Fridolfsson and Ellegren [54]. See Supporting Information Text S1 for specific details regarding PCR methods including extraction, amplification, and gel electrophoresis."
         }
     },
-    "Study": {
+    "XYZStudy": {
         "penguins": {
             "name": "Penguin Study",
             "short_name": "Penguin Study",
-            "description": "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)",
-            "display_label": "Penguin Study"
+            "description": "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)"
         }
     },
-    "StudyActivity": {
+    "XYZStudyActivity": {
         "PAL0708": {
             "description": "Collection of data from three species of Pygoscelis penguinsduring the austral summer of 2007/08.",
             "display_label": "PAL0708"
@@ -288,62 +251,55 @@
             "_generatesDataItemWithDim": ["comments"]
         }
     },
-    "Subject": {
+    "XYZSubject": {
         "ex": {
             "study": "",
             "name": "",
             "subject_type": "",
-            "description": "",
-            "display_label": ""
+            "description": ""
         }
     },
-    "SubjectType": {
+    "XYZSubjectType": {
         "adelie":{
             "name": "Adélie Penguin",
             "short_name": "Adélie",
             "description": "Pygoscelis adeliae",
             "exact_mappings": ["http://purl.obolibrary.org/obo/NCBITaxon_9238"],
-            "display_label": "Adélie Penguin",
-            "pid": "https://inm7.de/ns/datamgt/stype/adelie"
+            "pid": "https://example.org/ns/demo/penguins/stype/adelie"
         },
         "gentoo":{
             "name": "Gentoo Penguin",
             "short_name": "Gentoo",
             "description": "Pygoscelis papua",
             "exact_mappings": ["http://purl.obolibrary.org/obo/NCBITaxon_30457"],
-            "display_label": "Gentoo Penguin",
-            "pid": "https://inm7.de/ns/datamgt/stype/gentoo"
+            "pid": "https://example.org/ns/demo/penguins/stype/gentoo"
         },
         "chinstrap":{
             "name": "Chinstrap Penguin",
             "short_name": "Chinstrap",
             "description": "Pygoscelis antarctica",
             "exact_mappings": ["http://purl.obolibrary.org/obo/NCBITaxon_79643"],
-            "display_label": "Chinstrap Penguin",
-            "pid": "https://inm7.de/ns/datamgt/stype/chinstrap"
+            "pid": "https://example.org/ns/demo/penguins/stype/chinstrap"
         }
     },
-    "Unit": {
+    "XYZUnit": {
         "gram": {
             "name": "gram",
             "short_name": "g",
             "description": "a thousandth of one kilogram, the SI unit of mass",
-            "exact_mappings": ["http://purl.obolibrary.org/obo/NCIT_C48155"],
-            "display_label": "gram"
+            "exact_mappings": ["http://purl.obolibrary.org/obo/NCIT_C48155"]
         },
         "millimeter": {
             "name": "millimeter",
             "short_name": "mm",
             "description": "a thousandth of one meter, the SI unit of length",
-            "exact_mappings": ["http://purl.obolibrary.org/obo/NCIT_C28251"],
-            "display_label": "millimeter"
+            "exact_mappings": ["http://purl.obolibrary.org/obo/NCIT_C28251"]
         },
         "parts_per_thousand": {
             "name": "parts per thousand",
             "short_name": "o/oo",
             "description": "parts per thousand, relative to a standard. for isotopes. Isotope data uses LC-delta=(Rx/Rs-1)*1000",
-            "narrow_mappings": ["http://purl.obolibrary.org/obo/UO_0000168"],
-            "display_label": "parts per thousand"
+            "narrow_mappings": ["http://purl.obolibrary.org/obo/UO_0000168"]
         }
     }
 }

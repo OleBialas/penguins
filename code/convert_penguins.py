@@ -1,4 +1,5 @@
-# Penguin dataset metadata curation / transformation to flat-data schema
+# Penguin dataset metadata curation / transformation to FLAT schemas
+# See: https://concepts.datalad.org/s/demo-empirical-data/unreleased/
 
 from argparse import ArgumentParser
 from dotenv import load_dotenv
@@ -19,23 +20,23 @@ csv_files = {
 }
 meta_file = repo_path / 'code' / 'meta.json'
 column_file = repo_path / 'code' / 'columns.json'
-main_ns = 'https://datalad.org/ns/datamgt/'
+main_ns = 'https://example.org/ns/demo/penguins/'
 nampespace_suffix = {
-    'Dataset': 'ds',
-    'DataItem': 'di',
-    'Dimension': 'dim',
-    'Distribution': 'dist',
-    'Factor': 'fact',
-    'FileFormat': 'fformat',
-    'Instrument': 'inst',
-    'Organization': 'org',
-    'Person': 'person',
-    'Protocol': 'prot',
-    'Study': 'study',
-    'StudyActivity': 'sact',
-    'Subject': 'subj',
-    'SubjectType': 'stype',
-    'Unit': 'unit',
+    'XYZDataItem': 'di',
+    'XYZDataset': 'ds',
+    'XYZDimension': 'dim',
+    'XYZDistribution': 'dist',
+    'XYZFactor': 'fact',
+    'XYZFileFormat': 'fformat',
+    'XYZInstrument': 'inst',
+    'XYZOrganization': 'org',
+    'XYZPerson': 'person',
+    'XYZProtocol': 'prot',
+    'XYZStudy': 'study',
+    'XYZStudyActivity': 'sact',
+    'XYZSubject': 'subj',
+    'XYZSubjectType': 'stype',
+    'XYZUnit': 'unit',
 }
 dump_base_url = ''
 checksum_maps = {
@@ -114,13 +115,13 @@ def add_node(class_name, pid, val = {}):
 
 def get_subject_dict(row, study_pid):
     """
-    Create the standard structure for a 'Subject' record
+    Create the standard structure for a 'XYZSubject' record
     """
     stype, stype_pid = get_subject_type(row)
     sname = get_subject_id(row)
-    spid = get_pid('Subject', f'{stype}_{sname}')
+    spid = get_pid('XYZSubject', f'{stype}_{sname}')
 
-    stype_dict = get_data_record('SubjectType', 'pid', stype_pid)
+    stype_dict = get_data_record('XYZSubjectType', 'pid', stype_pid)
 
     return {
         'study': study_pid,
@@ -128,23 +129,23 @@ def get_subject_dict(row, study_pid):
         'subject_type': stype_pid,
         # 'derived_from': '',
         # 'description': '',
-        'display_label': f'Penguin {sname} ({stype_dict['short_name']})',
+        # 'display_label': f'Penguin {sname} ({stype_dict['short_name']})',
         'pid': spid
     }
 
 def get_subject_id(row):
     """
-    Get the ID of a 'Subject' record from the associated column in table data
+    Get the ID of a 'XYZSubject' record from the associated column in table data
     """
     return row['Individual ID']
 
 
 def get_subject_type(row):
     """
-    Get the type of 'Subject' from the 'Species' column in table data
+    Get the type of 'XYZSubject' from the 'Species' column in table data
     """
     stype_string = row['Species']
-    st = 'SubjectType'
+    st = 'XYZSubjectType'
     pidkeys = ['adelie', 'gentoo', 'chinstrap']
 
     for key in pidkeys:
@@ -165,24 +166,24 @@ def get_study_activity_dict(row, source_key, source_dict, study_pid, subject_pid
     """
     Create the standard structure for a 'StudyActivity' record
     """
-    anvers_pid = get_pid('Factor', 'anvers')
+    anvers_pid = get_pid('XYZFactor', 'anvers')
     factor_pid = None
     island_string = row['Island'].lower()
-    for fpid in data['Factor']:
+    for fpid in data['XYZFactor']:
         fkey = fpid.split('/')[-1]
         if fkey in island_string:
-            factor_pid = get_pid('Factor', fkey)
+            factor_pid = get_pid('XYZFactor', fkey)
 
     return {
         'study': study_pid,
         'subjects': [subject_pid],
-        'implements': [get_pid('Protocol', prot ) for prot in source_dict['implements']],
+        'implements': [get_pid('XYZProtocol', prot ) for prot in source_dict['implements']],
         'factors': [anvers_pid, factor_pid] if factor_pid else [anvers_pid],
-        'instruments': [get_pid('Instrument', inst ) for inst in source_dict['instruments']],
-        'part_of': get_pid('StudyActivity', row['studyName']),
+        'instruments': [get_pid('XYZInstrument', inst ) for inst in source_dict['instruments']],
+        'part_of': get_pid('XYZStudyActivity', row['studyName']),
         'description': source_dict['description'],
-        'display_label': source_key,
-        'pid': get_pid('StudyActivity', source_key),
+        # 'display_label': source_key,
+        'pid': get_pid('XYZStudyActivity', source_key),
     }
 
 def get_data_item_dict(row, cname, ds_pid, sa_pid, subject_pid, dim_pid, unit_pid):
@@ -200,8 +201,8 @@ def get_data_item_dict(row, cname, ds_pid, sa_pid, subject_pid, dim_pid, unit_pi
         'value': row[cname],
         'dimensions': [dim_pid],
         'description': name.replace('_', ' '),
-        'display_label': name,
-        'pid': get_pid('DataItem', name),
+        # 'display_label': name,
+        'pid': get_pid('XYZDataItem', name),
     }
 
     if unit_pid:
@@ -220,13 +221,13 @@ def get_distribution_dict(key):
 
     return {
         'pid': f'https://concepts.datalad.org/ns/annex-key/{annexkey}',
-        'distribution_of': get_pid('Dataset', key),
+        'distribution_of': get_pid('XYZDataset', key),
         'name': filepath.name,
         # 'part_of': '',
         'byte_size': props['filesize'],
-        'format': get_pid('FileFormat', props['extension']),
+        'format': get_pid('XYZFileFormat', props['extension']),
         'media_type': media_type_maps[props['extension']],
-        'display_label': filepath.name,
+        # 'display_label': filepath.name,
         'checksums': [
             {
                 'creator': checksum_maps[props['backend']],
@@ -275,6 +276,7 @@ def post_record(endpoint_class: str, token: str, record: dict):
 
     # Convert the data dictionary to a JSON string
     json_data = json.dumps(record)
+    # print(json_data)
 
     try:
         response = requests.post(
@@ -298,7 +300,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "--namespace",
         type=str,
-        help="Main namespace URL to be used for PIDs; defaults to 'https://datalad.org/ns/datamgt/'"
+        help="Main namespace URL to be used for PIDs; defaults to 'https://example.org/ns/demo/penguins/'"
     )
     parser.add_argument(
         "--output",
@@ -350,45 +352,45 @@ if __name__ == '__main__':
 
     # ORGANIZATION
     # First independent organizations, ignore palmer
-    palmer_org_pid = get_pid('Organization', 'palmer_station')
-    add_nodes(source_metadata, 'Organization', {}, ['palmer_station'])
+    palmer_org_pid = get_pid('XYZOrganization', 'palmer_station')
+    add_nodes(source_metadata, 'XYZOrganization', {}, ['palmer_station'])
     # Then the dependent palmer
-    org_dict = source_metadata['Organization']['palmer_station']
-    ltern_org_pid = get_pid('Organization', 'ltern')
+    org_dict = source_metadata['XYZOrganization']['palmer_station']
+    ltern_org_pid = get_pid('XYZOrganization', 'ltern')
     org_dict['parent_organization'] = ltern_org_pid
     org_dict['pid'] = palmer_org_pid
-    add_node('Organization', palmer_org_pid, org_dict)
+    add_node('XYZOrganization', palmer_org_pid, org_dict)
 
     # PERSON
     # Only one
     person_key = 'kbgorman'
-    person_pid = get_pid('Person', person_key)
-    person_dict = source_metadata['Person'][person_key]
-    person_dict['member_of'] = [get_pid('Organization', 'uni_alaska_fairbanks')]
+    person_pid = get_pid('XYZPerson', person_key)
+    person_dict = source_metadata['XYZPerson'][person_key]
+    person_dict['member_of'] = [get_pid('XYZOrganization', 'uni_alaska_fairbanks')]
     person_dict['pid'] = person_pid
-    add_node('Person', person_pid, person_dict)
+    add_node('XYZPerson', person_pid, person_dict)
 
     # FILEFORMAT
     # Only one
     ff_key = 'csv'
-    ff_pid = get_pid('FileFormat', ff_key)
-    ff_dict = source_metadata['FileFormat'][ff_key]
+    ff_pid = get_pid('XYZFileFormat', ff_key)
+    ff_dict = source_metadata['XYZFileFormat'][ff_key]
     ff_dict['pid'] = ff_pid
-    add_node('FileFormat', ff_pid, ff_dict)
+    add_node('XYZFileFormat', ff_pid, ff_dict)
 
     # DATASET
     # Add the main dataset
     main_ds_key = 'penguins'
     main_ds_pid = 'https://concepts.datalad.org/ns/dataset-uuid/fd3b41bb-5d75-4cee-b41c-aac0e0cae7f1'
-    main_ds_val = source_metadata['Dataset'][main_ds_key]
+    main_ds_val = source_metadata['XYZDataset'][main_ds_key]
     main_ds_val['pid'] = main_ds_pid
-    add_node('Dataset', main_ds_pid, main_ds_val)
+    add_node('XYZDataset', main_ds_pid, main_ds_val)
     # Add child datasets and include part_of relationship
     ds_relationships = {
         'part_of': main_ds_pid,
-        'record_contact': person_pid
+        # 'record_contact': person_pid
     }
-    add_nodes(source_metadata, 'Dataset', ds_relationships, [main_ds_key])
+    add_nodes(source_metadata, 'XYZDataset', ds_relationships, [main_ds_key])
 
     # DISTRIBUTION
     # The datalad dataset distribution
@@ -398,72 +400,72 @@ if __name__ == '__main__':
         'name': 'penguins',
         'display_label': 'DataLad Penguins Distribution',
     }
-    add_node('Distribution', main_ds_dist['pid'], main_ds_dist)
+    add_node('XYZDistribution', main_ds_dist['pid'], main_ds_dist)
     # The three csv file distributions
     for dataset_key in csv_files:
         dist_dict = get_distribution_dict(dataset_key)
-        add_node('Distribution', dist_dict['pid'], dist_dict)
+        add_node('XYZDistribution', dist_dict['pid'], dist_dict)
 
     # DIMENSION
-    add_nodes(source_metadata, 'Dimension')
+    add_nodes(source_metadata, 'XYZDimension')
 
     # FACTOR
-    add_nodes(source_metadata, 'Factor')
+    add_nodes(source_metadata, 'XYZFactor')
 
     # INSTRUMENT
-    add_nodes(source_metadata, 'Instrument')
+    add_nodes(source_metadata, 'XYZInstrument')
 
     # PROTOCOL
-    add_nodes(source_metadata, 'Protocol')
+    add_nodes(source_metadata, 'XYZProtocol')
 
     # UNIT
-    add_nodes(source_metadata, 'Unit')
+    add_nodes(source_metadata, 'XYZUnit')
 
     # STUDY
-    study_pid = get_pid('Study', main_ds_key)
-    study_val = source_metadata['Study'][main_ds_key]
+    study_pid = get_pid('XYZStudy', main_ds_key)
+    study_val = source_metadata['XYZStudy'][main_ds_key]
     study_val['pid'] = study_pid
     # relational objects must exist before they can be referenced here
     study_relationships = {
-        'implements': list(data['Protocol'].keys()),
-        'factors': list(data['Factor'].keys()),
-        'instruments': list(data['Instrument'].keys()),
-        'dimensions': list(data['Dimension'].keys()),
-        'record_contact': person_pid
+        'implements': list(data['XYZProtocol'].keys()),
+        'factors': list(data['XYZFactor'].keys()),
+        'instruments': list(data['XYZInstrument'].keys()),
+        'dimensions': list(data['XYZDimension'].keys()),
+        # 'record_contact': person_pid
     }
     for r in study_relationships:
         study_val[r] = study_relationships[r]
     
-    add_node('Study', study_pid, study_val)
+    add_node('XYZStudy', study_pid, study_val)
 
     # DIMENSIONS AND STUDY TO DATASETS
-    for ds_pid in data['Dataset'].keys():
+    for ds_pid in data['XYZDataset'].keys():
         if ds_pid == main_ds_pid:
             continue
         # add dimensions
-        data['Dataset'][ds_pid]['dimensions'] = list(data['Dimension'].keys())
-        # add primary source
-        data['Dataset'][ds_pid]['primary_source'] = study_pid
+        data['XYZDataset'][ds_pid]['dimensions'] = list(data['XYZDimension'].keys())
+        # add generated by
+        data['XYZDataset'][ds_pid]['generated_by'] = study_pid
 
     # MAIN STUDYACTIVITYs
 
-    for sact_key in source_metadata['StudyActivity']:
-        main_sa = source_metadata['StudyActivity'][sact_key]
+    for sact_key in source_metadata['XYZStudyActivity']:
+        main_sa = source_metadata['XYZStudyActivity'][sact_key]
         main_sa['study'] = study_pid
-        main_sa['pid'] = get_pid('StudyActivity', sact_key)
-        add_node('StudyActivity', main_sa['pid'], main_sa)
+        main_sa['pid'] = get_pid('XYZStudyActivity', sact_key)
+        add_node('XYZStudyActivity', main_sa['pid'], main_sa)
 
     # SUBJECTTYPE
-    add_nodes(source_metadata, 'SubjectType')
+    add_nodes(source_metadata, 'XYZSubjectType')
 
     # Next: process each `Dataset`'s CSV table
     # First setup some tracking/storage variables
     unique_subs = set()
-    dimensions = data['Dimension']
-    factors = data['Factor']
-    units = data['Unit']
-    instruments = data['Instrument']
-    protocols = data['Protocol']
+    dimensions = data['XYZDimension']
+    factors = data['XYZFactor']
+    units = data['XYZUnit']
+    instruments = data['XYZInstrument']
+    protocols = data['XYZProtocol']
     source_study_activities = source_metadata['StudyActivityPerSubjectBasis']
     source_units_for_dimensions = source_metadata['DimensionToUnitMapping']
     study_activities = []
@@ -471,7 +473,7 @@ if __name__ == '__main__':
     
     # Read table per dataset
     for dataset_key in csv_files:
-        dataset_pid = get_pid('Dataset', dataset_key)
+        dataset_pid = get_pid('XYZDataset', dataset_key)
         csv_content = read_csv_file(csv_files[dataset_key])
         dataset_row_counts.append(len(csv_content))
         # Iterate over rows of table
@@ -481,7 +483,7 @@ if __name__ == '__main__':
             sub_key = sub['pid'].split('/')[-1]
             unique_subs.add(sub['pid'])
             # add subject to data if it does not yet exist there
-            add_node('Subject', sub['pid'], sub)
+            add_node('XYZSubject', sub['pid'], sub)
 
             # for each custom studyactivity done per subject:
             for s in source_study_activities:
@@ -493,7 +495,7 @@ if __name__ == '__main__':
                 # should not be created
                 generates_something = False
                 for c in sa['_generatesDataItemWithDim']:
-                    cname = source_metadata['Dimension'][c]['name']
+                    cname = source_metadata['XYZDimension'][c]['name']
                     if row[cname]:
                         generates_something = True
                 if not generates_something:
@@ -507,17 +509,17 @@ if __name__ == '__main__':
                     study_pid=study_pid,
                     subject_pid=sub['pid']
                 )
-                add_node('StudyActivity', new_sa['pid'], new_sa)
+                add_node('XYZStudyActivity', new_sa['pid'], new_sa)
 
                 study_activities.append(sa_key)
                 # Then we create all DataItems for which there are values in the table
                 for c in sa['_generatesDataItemWithDim']:
-                    cname = source_metadata['Dimension'][c]['name']
+                    cname = source_metadata['XYZDimension'][c]['name']
                     if row[cname]:
                         # get associated dimension
-                        dim_pid = get_pid('Dimension', c)
+                        dim_pid = get_pid('XYZDimension', c)
                         # get associated unit
-                        unit_pid = get_pid('Unit', source_units_for_dimensions[c]) if source_units_for_dimensions[c] else None
+                        unit_pid = get_pid('XYZUnit', source_units_for_dimensions[c]) if source_units_for_dimensions[c] else None
                         new_data_item = get_data_item_dict(
                             row=row,
                             cname = cname,
@@ -527,7 +529,7 @@ if __name__ == '__main__':
                             dim_pid=dim_pid,
                             unit_pid=unit_pid,
                         )
-                        add_node('DataItem', new_data_item['pid'], new_data_item)
+                        add_node('XYZDataItem', new_data_item['pid'], new_data_item)
 
 
     # OUTPUT
@@ -553,28 +555,28 @@ if __name__ == '__main__':
         X_DUMPTHINGS_TOKEN = os.getenv('X_DUMPTHINGS_TOKEN')
         # Now we post data to backend in specific order
         post_this = [
-            'Organization',
-            'Person',
-            'Dimension',
-            'Factor',
-            'Instrument',
-            'Protocol',
-            'Unit',
-            'FileFormat',
-            'Dataset',
-            'Distribution',
-            'Study',
-            'SubjectType',
-            'Subject',
-            'StudyActivity',
-            'DataItem',
+            'XYZOrganization',
+            'XYZPerson',
+            'XYZDimension',
+            'XYZFactor',
+            'XYZInstrument',
+            'XYZProtocol',
+            'XYZUnit',
+            'XYZFileFormat',
+            'XYZDataset',
+            'XYZDistribution',
+            'XYZStudy',
+            'XYZSubjectType',
+            'XYZSubject',
+            'XYZStudyActivity',
+            'XYZDataItem',
         ]
         for clss in post_this:
             cnt = 0
             print(f'\n\nPosting objects of class "{clss}"')
             for record_pid in data[clss]:
                 # 'short_name' is used internally, but not part of the allowed slots for 'SubjectType'
-                if clss == 'SubjectType':
+                if clss == 'XYZSubjectType':
                     data[clss][record_pid].pop('short_name', None)
                 cnt = cnt + 1
                 record = data[clss][record_pid]

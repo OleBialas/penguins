@@ -192,7 +192,7 @@ def get_data_item_dict(row, cname, ds_pid, sa_pid, subject_pid, dim_pid, unit_pi
     """
     dim_key = dim_pid.split('/')[-1]
     sub_key = subject_pid.split('/')[-1]
-    name = f'{dim_key}_of_{sub_key}_during_{row['studyName']}'
+    name = f'{dim_key}_of_{sub_key}_during_{row["studyName"]}'
 
     di = {
         'part_of': ds_pid,
